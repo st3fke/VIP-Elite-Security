@@ -8,7 +8,7 @@ export function CloseProtection() {
     threshold: 0.2
   });
   const features = ['Elite bodyguard services from former special forces', 'Threat assessment and risk mitigation', 'Advance route planning and reconnaissance', 'Discreet or visible protection as required', 'Emergency response and medical support', 'International operational capability'];
-  return <section ref={ref} className="bg-gradient-to-b from-black to-gray-900 py-20">
+  return <section ref={ref} id='close-protection' className="bg-gradient-to-b from-black to-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{

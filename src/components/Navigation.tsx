@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Shield, Globe } from 'lucide-react'; // Re-added Shield
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Shield, Globe, ChevronDown, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -19,9 +22,26 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const services = [
+    { id: 'close-protection', label: 'Close Protection', icon: '🛡️' },
+    { id: 'covert-protection', label: 'Covert Protection', icon: '🕵️' },
+    { id: 'family-security', label: 'Family Security', icon: '👨‍👩‍👧‍👦' },
+    { id: 'residential-security', label: 'Residential Security', icon: '🏠' },
+    { id: 'event-security', label: 'Event Security', icon: '🎭' },
+    { id: 'transport-security', label: 'Transport Security', icon: '🚗' },
+    { id: 'travel-security', label: 'Travel Security', icon: '✈️' },
+    { id: 'cyber-security', label: 'Cyber Security', icon: '💻' },
+    { id: 'armored-car-hire', label: 'Armored Car Hire', icon: '🚙' },
+    { id: 'armored-luxury-transport', label: 'Armored Luxury Transport', icon: '🏎️' },
+    { id: 'bug-sweeping', label: 'Bug Sweeping', icon: '🔍' },
+    { id: 'helicopter-transport', label: 'Helicopter Transport', icon: '🚁' },
+    { id: 'protective-surveillance', label: 'Protective Surveillance', icon: '👁️' },
+    { id: 'security-driver', label: 'Security Driver', icon: '🚘' },
+    { id: 'armed-security-driver', label: 'Armed Security Driver', icon: '🔫' }
+  ];
+
   const navItems = [
     { path: '/', label: t('nav.home') },
-    { path: '/services', label: t('nav.services') },
     { path: '/about', label: t('nav.about') },
     { path: '/contact', label: t('nav.contact') }
   ];
@@ -39,6 +59,61 @@ export function Navigation() {
     setLangOpen(false);
   };
 
+  const handleServicesClick = () => {
+    setServicesOpen(false);
+    navigate('/services');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.services-dropdown') && !target.closest('.services-button')) {
+        setServicesOpen(false);
+      }
+      if (!target.closest('.language-dropdown') && !target.closest('.language-button')) {
+        setLangOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
+  const scrollToService = (serviceId: string) => {
+    setServicesOpen(false);
+    setMobileServicesOpen(false);
+    setIsOpen(false);
+    
+    if (location.pathname !== '/services') {
+      navigate('/services');
+      setTimeout(() => {
+        const element = document.getElementById(serviceId);
+        if (element) {
+          const offset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(serviceId);
+      if (element) {
+        const offset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-lg border-b transition-all duration-500 ${
@@ -49,11 +124,11 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20 md:h-24">
-          {/* Logo with Shield Icon */}
+          {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-primary-red transition-transform group-hover:scale-110" />
             <span className="text-white font-bold text-lg sm:text-xl tracking-tight transition-colors group-hover:text-primary-red">
-              V I P SECURITY
+              VIP ELITE SECURITY
             </span>
           </Link>
 
@@ -76,37 +151,149 @@ export function Navigation() {
               </Link>
             ))}
 
+            {/* Services Dropdown */}
+            <div className="relative">
+              <button
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+                onClick={handleServicesClick}
+                className={`flex items-center gap-2 text-sm lg:text-base font-medium tracking-wide transition-all duration-300 relative ${
+                  isActive('/services')
+                    ? 'text-primary-red'
+                    : 'text-white hover:text-primary-red hover:scale-105'
+                }`}
+              >
+                {t('nav.services')}
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
+                {isActive('/services') && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-red animate-pulse" />
+                )}
+              </button>
+
+              <AnimatePresence>
+                {servicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    onMouseEnter={() => setServicesOpen(true)}
+                    onMouseLeave={() => setServicesOpen(false)}
+                    className="absolute left-1/2 -translate-x-1/2 mt-4 w-[420px] bg-black/95 backdrop-blur-xl border border-red-500/30 shadow-2xl shadow-red-500/20 rounded-2xl overflow-hidden"
+                  >
+                    {/* Decorative gradient header */}
+                    <div className="bg-gradient-to-r from-red-600/20 via-red-500/20 to-red-600/20 px-6 py-4 border-b border-red-500/20">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-white font-bold text-lg">Our Services</h3>
+                        <Shield className="w-5 h-5 text-red-400" />
+                      </div>
+                    </div>
+
+                    {/* Services grid */}
+                    <div className="p-3 max-h-[500px] overflow-y-auto custom-scrollbar">
+                      <div className="grid grid-cols-2 gap-2">
+                        {services.map((service, index) => (
+                          <motion.button
+                            key={service.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.2, delay: index * 0.02 }}
+                            onClick={() => scrollToService(service.id)}
+                            className="group relative px-3 py-3 text-left rounded-xl bg-gray-900/50 border border-white/5 hover:border-red-500/50 hover:bg-red-500/10 transition-all duration-300 overflow-hidden"
+                          >
+                            {/* Hover gradient effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/5 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                            
+                            <div className="relative flex items-center gap-2">
+                              <span className="text-lg">{service.icon}</span>
+                              <span className="text-xs font-medium text-gray-300 group-hover:text-white transition-colors leading-tight">
+                                {service.label}
+                              </span>
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
+
+                      {/* View All Button */}
+                      <Link
+                        to="/services"
+                        onClick={() => setServicesOpen(false)}
+                        className="group mt-3 flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold text-sm rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50"
+                      >
+                        View All Services
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* Language Switcher */}
             <div className="relative">
               <button
+                onMouseEnter={() => setLangOpen(true)}
+                onMouseLeave={() => setLangOpen(false)}
                 onClick={() => setLangOpen(!langOpen)}
-                className="flex items-center gap-2 text-white hover:text-primary-red transition-all duration-300 text-sm lg:text-base font-medium hover:scale-105"
+                className="group flex items-center gap-2 px-4 py-2 text-white hover:text-primary-red transition-all duration-300 text-sm lg:text-base font-medium hover:scale-105 rounded-lg hover:bg-red-500/10"
               >
-                <Globe className="w-4 h-4 lg:w-5 lg:h-5" />
-                <span>{currentLang.flag}</span>
-                <span>{currentLang.label}</span>
+                <Globe className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover:rotate-12" />
+                <span className="text-2xl">{currentLang.flag}</span>
+                <span className="hidden lg:inline">{currentLang.label}</span>
+                <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
                 {langOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute right-0 mt-3 w-48 bg-gray-900/95 backdrop-blur-md border border-white/20 shadow-2xl rounded-lg overflow-hidden"
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    onMouseEnter={() => setLangOpen(true)}
+                    onMouseLeave={() => setLangOpen(false)}
+                    className="absolute right-0 mt-4 w-56 bg-black/95 backdrop-blur-xl border border-red-500/30 shadow-2xl shadow-red-500/20 rounded-xl overflow-hidden"
                   >
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => changeLanguage(lang.code)}
-                        className={`w-full px-4 py-3 text-left flex items-center gap-3 transition-all duration-300 hover:bg-primary-red/20 hover:scale-105 ${
-                          i18n.language === lang.code ? 'text-primary-red bg-primary-red/10' : 'text-white'
-                        }`}
-                      >
-                        <span className="text-xl">{lang.flag}</span>
-                        <span className="text-sm lg:text-base font-medium">{lang.label}</span>
-                      </button>
-                    ))}
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-red-600/20 via-red-500/20 to-red-600/20 px-4 py-3 border-b border-red-500/20">
+                      <div className="flex items-center gap-2">
+                        <Globe className="w-4 h-4 text-red-400" />
+                        <span className="text-white font-semibold text-sm">Select Language</span>
+                      </div>
+                    </div>
+
+                    {/* Language Options */}
+                    <div className="p-2">
+                      {languages.map((lang, index) => (
+                        <motion.button
+                          key={lang.code}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.2, delay: index * 0.05 }}
+                          onClick={() => changeLanguage(lang.code)}
+                          className={`group relative w-full px-4 py-3 text-left flex items-center gap-3 rounded-lg transition-all duration-300 overflow-hidden ${
+                            i18n.language === lang.code 
+                              ? 'text-white bg-gradient-to-r from-red-600 to-red-700 shadow-lg shadow-red-500/30' 
+                              : 'text-gray-300 hover:text-white hover:bg-red-500/10'
+                          }`}
+                        >
+                          {/* Hover gradient effect */}
+                          {i18n.language !== lang.code && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/10 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                          )}
+                          
+                          <span className="relative text-2xl">{lang.flag}</span>
+                          <div className="relative flex-1">
+                            <span className="font-medium">{lang.label}</span>
+                            {i18n.language === lang.code && (
+                              <div className="text-xs text-red-200 mt-0.5">Active</div>
+                            )}
+                          </div>
+                          {i18n.language === lang.code && (
+                            <div className="relative w-2 h-2 rounded-full bg-white animate-pulse" />
+                          )}
+                        </motion.button>
+                      ))}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -141,7 +328,7 @@ export function Navigation() {
             transition={{ duration: 0.4 }}
             className="md:hidden bg-gray-900/95 backdrop-blur-md border-t border-white/20"
           >
-            <div className="px-4 py-6 space-y-4">
+            <div className="px-4 py-6 space-y-4 max-h-[70vh] overflow-y-auto">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
@@ -157,26 +344,91 @@ export function Navigation() {
                 </Link>
               ))}
 
+              {/* Mobile Services Section */}
+              <div className="border-t border-white/20 pt-4">
+                <button
+                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                  className={`w-full flex items-center justify-between text-base font-medium tracking-wide py-3 px-2 transition-all duration-300 rounded-md ${
+                    isActive('/services')
+                      ? 'text-primary-red bg-primary-red/10'
+                      : 'text-white hover:text-primary-red hover:bg-primary-red/5'
+                  }`}
+                >
+                  {t('nav.services')}
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {mobileServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2 space-y-1 bg-black/40 rounded-lg p-2"
+                    >
+                      <Link
+                        to="/services"
+                        onClick={() => {
+                          setMobileServicesOpen(false);
+                          setIsOpen(false);
+                        }}
+                        className="flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-white bg-red-600/20 hover:bg-red-600/30 rounded-md transition-all duration-300"
+                      >
+                        View All Services
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                      <div className="border-t border-white/10 my-2" />
+                      {services.map((service) => (
+                        <button
+                          key={service.id}
+                          onClick={() => scrollToService(service.id)}
+                          className="w-full flex items-center gap-2 text-left text-sm text-gray-300 py-2 px-3 hover:text-white hover:bg-red-500/10 rounded-md transition-all duration-300"
+                        >
+                          <span>{service.icon}</span>
+                          <span>{service.label}</span>
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* Mobile Language Section */}
               <div className="border-t border-white/20 pt-4">
-                <div className="text-gray-400 text-sm mb-3 font-medium">
-                  Language / Jezik
+                <div className="flex items-center gap-2 text-gray-400 text-sm mb-3 font-medium px-2">
+                  <Globe className="w-4 h-4" />
+                  <span>Language / Jezik</span>
                 </div>
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      changeLanguage(lang.code);
-                      setIsOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-3 flex items-center gap-3 transition-all duration-300 rounded-md hover:bg-primary-red/10 ${
-                      i18n.language === lang.code ? 'text-primary-red bg-primary-red/10' : 'text-white hover:text-primary-red'
-                    }`}
-                  >
-                    <span className="text-xl">{lang.flag}</span>
-                    <span className="text-base font-medium">{lang.label}</span>
-                  </button>
-                ))}
+                <div className="bg-black/40 rounded-lg p-2 space-y-1">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        changeLanguage(lang.code);
+                        setIsOpen(false);
+                      }}
+                      className={`group relative w-full text-left px-3 py-3 flex items-center gap-3 transition-all duration-300 rounded-md overflow-hidden ${
+                        i18n.language === lang.code 
+                          ? 'text-white bg-gradient-to-r from-red-600 to-red-700 shadow-lg shadow-red-500/30' 
+                          : 'text-gray-300 hover:text-white hover:bg-red-500/10'
+                      }`}
+                    >
+                      {/* Hover gradient effect */}
+                      {i18n.language !== lang.code && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/10 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                      )}
+                      
+                      <span className="relative text-2xl">{lang.flag}</span>
+                      <div className="relative flex-1 flex items-center justify-between">
+                        <span className="text-base font-medium">{lang.label}</span>
+                        {i18n.language === lang.code && (
+                          <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Mobile CTA Button */}
@@ -191,6 +443,23 @@ export function Navigation() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(239, 68, 68, 0.5);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(239, 68, 68, 0.7);
+        }
+      `}</style>
     </nav>
   );
 }

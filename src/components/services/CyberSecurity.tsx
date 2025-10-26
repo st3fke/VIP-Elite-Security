@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Lock, CheckCircle } from 'lucide-react';
 export function CyberSecurity() {
   const features = ['Technical surveillance countermeasures (TSCM)', 'Bug sweeping and electronic detection', 'Secure communications solutions', 'Digital privacy protection', 'Cyber threat assessment and monitoring', 'Data security consulting'];
-  return <section className="bg-gradient-to-b from-gray-900 to-black py-20">
+  return <section id='cyber-security' className="bg-gradient-to-b from-gray-900 to-black py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{
         opacity: 0,

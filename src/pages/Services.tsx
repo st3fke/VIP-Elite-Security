@@ -9,6 +9,15 @@ import { EventSecurity } from '../components/services/EventSecurity';
 import { TransportSecurity } from '../components/services/TransportSecurity';
 import { TravelSecurity } from '../components/services/TravelSecurity';
 import { CyberSecurity } from '../components/services/CyberSecurity';
+
+import { ArmedSecurityDriver } from '../components/services/ArmedSecurityDriver';
+import { ArmoredCarHire } from '../components/services/ArmoredCarHire';
+import { ArmoredLuxuryTransport } from '../components/services/ArmoredLuxuryTransport';
+import { BugSweeping } from '../components/services/BugSweeping';
+import { HelicopterTransport } from '../components/services/HelicopterTransport';
+import { ProtectiveSurveillance } from '../components/services/ProtectiveSurveillance';
+import { SecurityDriver } from '../components/services/SecurityDriver';
+
 export function Services() {
   return <div className="w-full min-h-screen bg-black">
       <Navigation />
@@ -30,6 +39,13 @@ export function Services() {
         <TransportSecurity />
         <TravelSecurity />
         <CyberSecurity />
+        <ArmoredCarHire />
+        <ArmoredLuxuryTransport />
+        <BugSweeping />
+        <HelicopterTransport />
+        <ProtectiveSurveillance />
+        <SecurityDriver />
+        <ArmedSecurityDriver />
       </div>
       <Footer />
     </div>;

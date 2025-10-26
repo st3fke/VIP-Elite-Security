@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Users, CheckCircle } from 'lucide-react';
 export function FamilySecurity() {
   const features = ['Comprehensive family protection programs', 'Child protection and school security', 'Residential security assessments', 'Safe travel arrangements for family members', 'Emergency response planning', 'Security awareness training for families'];
-  return <section className="bg-gradient-to-b from-black to-gray-900 py-20">
+  return <section id='family-security' className="bg-gradient-to-b from-black to-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{
         opacity: 0,

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Globe, CheckCircle } from 'lucide-react';
 export function TravelSecurity() {
   const features = ['International travel security planning', 'Destination risk assessments', 'Secure accommodation arrangements', 'Local security coordination', 'Emergency extraction capabilities', 'Medical and crisis support worldwide'];
-  return <section className="bg-gradient-to-b from-black to-gray-900 py-20">
+  return <section id='travel-security' className="bg-gradient-to-b from-black to-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{
         opacity: 0,

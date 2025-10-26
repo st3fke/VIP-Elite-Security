@@ -8,7 +8,7 @@ export function CovertProtection() {
     threshold: 0.2
   });
   const features = ['Invisible protection without obvious security presence', 'Surveillance detection and counter-surveillance', 'Discreet monitoring of potential threats', 'Intelligence gathering and analysis', 'Protective surveillance teams', 'Seamless integration into daily routines'];
-  return <section ref={ref} className="bg-gradient-to-b from-gray-900 to-black py-20">
+  return <section ref={ref} id='covert-protection' className="bg-gradient-to-b from-gray-900 to-black py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{

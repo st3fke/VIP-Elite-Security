@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, CheckCircle } from 'lucide-react';
 export function EventSecurity() {
   const features = ['VIP protection at private and public events', 'Venue security assessments and planning', 'Access control and guest screening', 'Crowd management and monitoring', 'Emergency evacuation procedures', 'Coordination with local law enforcement'];
-  return <section className="bg-gradient-to-b from-black to-gray-900 py-20">
+  return <section id='event-security' className="bg-gradient-to-b from-black to-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{
         opacity: 0,
