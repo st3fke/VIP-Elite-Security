@@ -18,6 +18,10 @@ import { HelicopterTransport } from '../components/services/HelicopterTransport'
 import { ProtectiveSurveillance } from '../components/services/ProtectiveSurveillance';
 import { ArmedSecurityDriver } from '../components/services/ArmedSecurityDriver';
 import { SecurityDriver } from '../components/services/SecurityDriver';
+import { JourneyManagement } from '../components/services/JourneyManagement';
+import { MedicalSupport } from '../components/services/MedicalSupport';
+import { RiskManagement } from '../components/services/RiskManagement';
+import { ScrollToTop } from '../utils/scrollToTop';
 
 export function Services() {
   const heroRef = useRef(null);
@@ -389,8 +393,13 @@ export function Services() {
       <ProtectiveSurveillance />
       <SecurityDriver />
       <ArmedSecurityDriver />
+      <RiskManagement />
+      <JourneyManagement />
+      <MedicalSupport />
       
+
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }

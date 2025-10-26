@@ -37,7 +37,10 @@ export function Navigation() {
     { id: 'helicopter-transport', label: 'Helicopter Transport', icon: '🚁' },
     { id: 'protective-surveillance', label: 'Protective Surveillance', icon: '👁️' },
     { id: 'security-driver', label: 'Security Driver', icon: '🚘' },
-    { id: 'armed-security-driver', label: 'Armed Security Driver', icon: '🔫' }
+    { id: 'armed-security-driver', label: 'Armed Security Driver', icon: '🔫' },
+    { id: 'risk-management', label: 'Risk Management', icon: '⚠️' },
+  { id: 'journey-management', label: 'Journey Management', icon: '🗺️' },
+  { id: 'medical-support', label: 'Medical Support', icon: '🩺' }
   ];
 
   const navItems = [

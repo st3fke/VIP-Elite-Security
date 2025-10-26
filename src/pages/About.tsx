@@ -267,15 +267,15 @@ export function About() {
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="relative aspect-square border border-[#1a1a1a] rounded-2xl bg-gradient-to-br from-[#0a0a0a] via-black to-[#0a0a0a] flex items-center justify-center p-6 md:p-8 lg:p-12"
             >
-              <motion.img
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={storyInView ? { opacity: 0.9, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                whileHover={{ opacity: 1, scale: 1.05 }}
-                src="/vipblackwhitelogo.png"
-                alt="VIP Elite Security Logo"
-                className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[280px] lg:max-w-[300px] transition-opacity duration-500"
-              />
+             <motion.img
+  initial={{ opacity: 0, scale: 0.8 }}
+  animate={storyInView ? { opacity: 0.9, scale: 1 } : { opacity: 0, scale: 0.8 }}
+  transition={{ duration: 0.6, delay: 0.4 }}
+  whileHover={{ opacity: 1, scale: 1.05 }}
+  src="/vipwhiteredlogo.png"
+  alt="VIP Elite Security Logo"
+  className="w-full max-w-[250px] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] transition-opacity duration-500"
+/>
               <motion.div
                 animate={{ 
                   opacity: [0.3, 0.6, 0.3],
@@ -292,7 +292,7 @@ export function About() {
           </motion.div>
         </div>
       </section>
-
+                
       {/* PRINCIPLES SECTION */}
       <section ref={principlesRef} className="relative py-16 md:py-24 lg:py-32 text-center overflow-hidden bg-gradient-to-b from-black via-[#050505] to-black">
         <div className="absolute inset-0">
