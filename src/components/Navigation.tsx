@@ -187,7 +187,7 @@ export function Navigation() {
                     {/* Decorative gradient header */}
                     <div className="bg-gradient-to-r from-red-600/20 via-red-500/20 to-red-600/20 px-6 py-4 border-b border-red-500/20">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-white font-bold text-lg">Our Services</h3>
+                        <h3 className="text-white font-bold text-lg">{t('services.title')}</h3>
                         <Shield className="w-5 h-5 text-red-400" />
                       </div>
                     </div>
@@ -223,7 +223,7 @@ export function Navigation() {
                         onClick={() => setServicesOpen(false)}
                         className="group mt-3 flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold text-sm rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50"
                       >
-                        View All Services
+                        {t('services.viewAll')}
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </Link>
                     </div>
@@ -378,7 +378,7 @@ export function Navigation() {
                         }}
                         className="flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-white bg-red-600/20 hover:bg-red-600/30 rounded-md transition-all duration-300"
                       >
-                        View All Services
+                        {t('services.viewAll')}
                         <ArrowRight className="w-4 h-4" />
                       </Link>
                       <div className="border-t border-white/10 my-2" />

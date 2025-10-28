@@ -29,7 +29,7 @@ export function Hero() {
         }}
       >
         <source
-          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          src="./heroSectionVideo.mp4"
           type="video/mp4"
         />
         {/* Fallback for browsers that don't support video */}

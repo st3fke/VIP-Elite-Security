@@ -1,10 +1,17 @@
 import React, { useRef } from 'react';
-import { Navigation } from '../components/Navigation';
-import { Footer } from '../components/Footer';
+import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
 import { Shield, Eye, FileText, AlertTriangle, Award, Star, Crown, Check, Scale, Lock } from 'lucide-react';
+import { Footer } from '../components/Footer';
+import { Navigation } from '../components/Navigation';
+
+// Define types for the translation data
+interface TranslationPoints {
+  [key: string]: string[];
+}
 
 export function Legal() {
+  const { t } = useTranslation();
   const heroRef = useRef(null);
   const privacyRef = useRef(null);
   const termsRef = useRef(null);
@@ -62,25 +69,9 @@ export function Legal() {
     }
   };
 
-  const privacyPoints = [
-    "Personal information collected via forms and emails",
-    "Used to respond to inquiries and deliver services",
-    "Essential cookies and basic analytics for site performance",
-    "No sale or rental of personal data",
-    "Data shared only with trusted service providers",
-    "Right to access, correct, or delete data at any time",
-    "Reasonable technical and organizational security measures"
-  ];
-
-  const termsPoints = [
-    "Content for general information purposes only",
-    "Security services subject to local laws and licensing",
-    "No liability for losses from website information use",
-    "All trademarks and content are property of their owners",
-    "Unauthorized use strictly prohibited",
-    "Governed by laws of Republic of Serbia",
-    "Severability of provisions"
-  ];
+  // Get translation points with proper typing
+  const privacyPoints = t('legal.privacy.points', { returnObjects: true }) as string[];
+  const termsPoints = t('legal.terms.points', { returnObjects: true }) as string[];
 
   return (
     <div className="w-full min-h-screen bg-black text-white overflow-hidden">
@@ -116,7 +107,7 @@ export function Legal() {
               className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#FF0000] rounded-full"
             />
             <span className="text-[#FF0000] text-xs tracking-[0.2em] uppercase font-light">
-              Legal Framework
+              {t('legal.hero.badge')}
             </span>
           </motion.div>
 
@@ -126,9 +117,9 @@ export function Legal() {
             animate={heroInView ? "visible" : "hidden"}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-tight mb-4 md:mb-6"
           >
-            <motion.span variants={itemVariants} className="block">LEGAL</motion.span>
+            <motion.span variants={itemVariants} className="block">{t('legal.hero.title1')}</motion.span>
             <motion.span variants={itemVariants} className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0000] via-[#DD0000] to-[#FF0000]">
-              COMPLIANCE
+              {t('legal.hero.title2')}
             </motion.span>
           </motion.h1>
 
@@ -138,7 +129,7 @@ export function Legal() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-[#aaa] text-base sm:text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Transparency, trust, and legal excellence — our commitment to compliance and client protection.
+            {t('legal.hero.subtitle')}
           </motion.p>
         </motion.div>
       </section>
@@ -152,12 +143,14 @@ export function Legal() {
             transition={{ duration: 0.7 }}
             className="text-center mb-12 md:mb-16"
           >
-            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">Data Protection</span>
+            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">
+              {t('legal.privacy.badge')}
+            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-2 md:mt-3 mb-4 md:mb-6">
-              Privacy <span className="text-[#FF0000]">Policy</span>
+              {t('legal.privacy.title').split(' ')[0]} <span className="text-[#FF0000]">{t('legal.privacy.title').split(' ')[1]}</span>
             </h2>
             <p className="text-[#999] text-base md:text-lg max-w-2xl mx-auto">
-              Your privacy and data security are fundamental to our operations.
+              {t('legal.privacy.subtitle')}
             </p>
           </motion.div>
 
@@ -180,13 +173,13 @@ export function Legal() {
                     <Lock className="w-6 h-6 md:w-7 md:h-7 text-[#FF0000]" />
                   </motion.div>
                   <div>
-                    <h3 className="text-xl md:text-2xl font-bold text-white">Data Protection</h3>
-                    <p className="text-[#FF0000] text-sm md:text-base">VIP Elite Security ("we", "us") respects your privacy</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">{t('legal.privacy.badge')}</h3>
+                    <p className="text-[#FF0000] text-sm md:text-base">VIP Elite Security</p>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
-                  {privacyPoints.map((point, idx) => (
+                  {privacyPoints.map((point: string, idx: number) => (
                     <motion.div
                       key={idx}
                       initial={{ opacity: 0, x: -20 }}
@@ -233,9 +226,9 @@ export function Legal() {
                     <Eye className="w-10 h-10 md:w-12 md:h-12 text-[#FF0000]" />
                   </motion.div>
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Your Privacy</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('legal.privacy.sideTitle')}</h3>
                     <p className="text-[#999] text-sm md:text-base">
-                      Protected with elite-level security measures and strict confidentiality protocols.
+                      {t('legal.privacy.sideSubtitle')}
                     </p>
                   </div>
                 </motion.div>
@@ -254,12 +247,14 @@ export function Legal() {
             transition={{ duration: 0.7 }}
             className="text-center mb-12 md:mb-16"
           >
-            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">Service Agreement</span>
+            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">
+              {t('legal.terms.badge')}
+            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-2 md:mt-3 mb-4 md:mb-6">
-              Terms & <span className="text-[#FF0000]">Conditions</span>
+              {t('legal.terms.title').split(' & ')[0]} & <span className="text-[#FF0000]">{t('legal.terms.title').split(' & ')[1]}</span>
             </h2>
             <p className="text-[#999] text-base md:text-lg max-w-2xl mx-auto">
-              Clear guidelines for our professional relationship and service delivery.
+              {t('legal.terms.subtitle')}
             </p>
           </motion.div>
 
@@ -291,9 +286,9 @@ export function Legal() {
                     <Scale className="w-10 h-10 md:w-12 md:h-12 text-[#FF0000]" />
                   </motion.div>
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Legal Framework</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('legal.terms.sideTitle')}</h3>
                     <p className="text-[#999] text-sm md:text-base">
-                      Governed by the laws of the Republic of Serbia with international compliance standards.
+                      {t('legal.terms.sideSubtitle')}
                     </p>
                   </div>
                 </motion.div>
@@ -318,13 +313,13 @@ export function Legal() {
                     <FileText className="w-6 h-6 md:w-7 md:h-7 text-[#FF0000]" />
                   </motion.div>
                   <div>
-                    <h3 className="text-xl md:text-2xl font-bold text-white">Terms Overview</h3>
-                    <p className="text-[#FF0000] text-sm md:text-base">Content on vipelitesecurity.com</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">{t('legal.terms.badge')}</h3>
+                    <p className="text-[#FF0000] text-sm md:text-base">VIP Elite Security</p>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
-                  {termsPoints.map((point, idx) => (
+                  {termsPoints.map((point: string, idx: number) => (
                     <motion.div
                       key={idx}
                       initial={{ opacity: 0, x: 20 }}
@@ -356,9 +351,11 @@ export function Legal() {
             transition={{ duration: 0.7 }}
             className="text-center mb-12 md:mb-16"
           >
-            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">Compliance & Assurance</span>
+            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">
+              {t('legal.additional.badge')}
+            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-2 md:mt-3 mb-4 md:mb-6">
-              Additional <span className="text-[#FF0000]">Information</span>
+              {t('legal.additional.title').split(' ')[0]} <span className="text-[#FF0000]">{t('legal.additional.title').split(' ')[1]}</span>
             </h2>
           </motion.div>
 
@@ -380,12 +377,12 @@ export function Legal() {
                   <AlertTriangle className="w-6 h-6 md:w-7 md:h-7 text-[#FF0000]" />
                 </motion.div>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white">Disclaimer</h3>
-                  <p className="text-[#FF0000] text-sm md:text-base">Risk Management</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white">{t('legal.additional.disclaimerTitle')}</h3>
+                  <p className="text-[#FF0000] text-sm md:text-base">{t('legal.additional.disclaimerSubtitle')}</p>
                 </div>
               </div>
               <p className="text-[#aaa] font-light leading-relaxed text-sm md:text-base">
-                While VIP Elite Security strives to provide the highest level of protection, we cannot guarantee complete immunity from all security threats. Our services are designed to significantly reduce risks and provide rapid response to security incidents.
+                {t('legal.additional.disclaimerText')}
               </p>
             </motion.div>
 
@@ -406,12 +403,12 @@ export function Legal() {
                   <Award className="w-6 h-6 md:w-7 md:h-7 text-[#FF0000]" />
                 </motion.div>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white">Licensing</h3>
-                  <p className="text-[#FF0000] text-sm md:text-base">Certified Excellence</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white">{t('legal.additional.licensingTitle')}</h3>
+                  <p className="text-[#FF0000] text-sm md:text-base">{t('legal.additional.licensingSubtitle')}</p>
                 </div>
               </div>
               <p className="text-[#aaa] font-light leading-relaxed text-sm md:text-base">
-                VIP Elite Security and all its operatives are fully licensed and insured in accordance with local and international regulations governing private security services.
+                {t('legal.additional.licensingText')}
               </p>
             </motion.div>
           </div>
@@ -429,10 +426,12 @@ export function Legal() {
           className="relative max-w-4xl mx-auto space-y-6 md:space-y-10 px-4 sm:px-6"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black">
-            Questions About Our <span className="text-[#FF0000]">Legal Policies?</span>
+            {t('legal.cta.title').split('Legal Policies')[0]} 
+            <span className="text-[#FF0000]">{t('legal.cta.title').includes('Legal Policies') ? 'Legal Policies' : t('legal.cta.title').split(' ').slice(-2).join(' ')}</span>
+            {t('legal.cta.title').split('Legal Policies')[1] || t('legal.cta.title').split('?')[1]}
           </h2>
           <p className="text-[#aaa] text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-            Contact us for clarification on any legal matters or to discuss how we protect your interests.
+            {t('legal.cta.subtitle')}
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
@@ -442,7 +441,7 @@ export function Legal() {
               href="/contact"
               className="group relative px-8 py-4 md:px-12 md:py-5 bg-[#FF0000] text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] overflow-hidden rounded-md transition-all duration-300"
             >
-              <span className="relative z-10">Contact Legal Team</span>
+              <span className="relative z-10">{t('legal.cta.contactButton')}</span>
               <motion.div 
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "100%" }}
@@ -457,7 +456,7 @@ export function Legal() {
               href="/services"
               className="px-8 py-4 md:px-12 md:py-5 border border-[#333] text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] rounded-md transition-all duration-300"
             >
-              View Services
+              {t('legal.cta.servicesButton')}
             </motion.a>
           </div>
         </motion.div>
