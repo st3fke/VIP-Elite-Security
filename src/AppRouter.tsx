@@ -5,8 +5,22 @@ import { Services } from './pages/Services';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { Legal } from './pages/Legal';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+export function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 export function AppRouter() {
   return <BrowserRouter>
+  <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />

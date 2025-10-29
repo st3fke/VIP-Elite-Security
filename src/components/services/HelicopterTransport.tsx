@@ -1,30 +1,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Plane, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 export function HelicopterTransport() {
-  const features = [
-    'Private point-to-point helicopter transfers',
-    'Vetted aviation partners and pilots',
-    'Integrated ground security coordination',
-    'Weather and route safety checks',
-    'Fast response for time-critical movement'
-  ];
+  const { t } = useTranslation();
+  const features = t('servicesDetails.helicopterTransport.features', { returnObjects: true }) as string[];
+
   return (
     <section id='helicopter-transport' className="bg-gradient-to-b from-gray-900 to-black py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1 relative">
-            <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=70" alt="Helicopter transport" className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=70" alt={t('servicesDetails.helicopterTransport.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="order-1 lg:order-2">
             <div className="flex items-center gap-3 mb-6">
               <Plane className="w-12 h-12 text-primary-red" />
-              <h2 className="text-4xl font-bold text-white">Helicopter Transport</h2>
+              <h2 className="text-4xl font-bold text-white">{t('servicesDetails.helicopterTransport.title')}</h2>
             </div>
-            <p className="text-gray-400 text-lg mb-6">
-              We provide secure and efficient helicopter transport for rapid, door-to-door movement, integrated with ground security and logistics teams.
-            </p>
+            <p className="text-gray-400 text-lg mb-6">{t('servicesDetails.helicopterTransport.description1')}</p>
+            <p className="text-gray-400 text-lg mb-6">{t('servicesDetails.helicopterTransport.description2')}</p>
             <ul className="space-y-3">
               {features.map((f, i) => (
                 <li key={i} className="flex gap-3">

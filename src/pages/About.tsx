@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { Shield, Eye, Award, Heart, MapPin, Globe2, Check } from 'lucide-react';
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
 export function About() {
+  const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
@@ -17,69 +19,41 @@ export function About() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const principles = [
-    {
-      icon: Eye,
-      title: 'Discretion',
-      description: 'Low-profile conduct, privacy by design.',
-      detail: 'We operate seamlessly in the background, ensuring your security never compromises your lifestyle or public image.',
-    },
-    {
-      icon: Award,
-      title: 'Professionalism',
-      description: 'Trained, licensed, scenario-rehearsed teams.',
-      detail: 'Our operators are drawn from elite military and law enforcement backgrounds, continuously trained in the latest protective methodologies.',
-    },
-    {
-      icon: Shield,
-      title: 'Preparation',
-      description: 'Intelligence-led planning and contingencies.',
-      detail: 'Every assignment begins with comprehensive threat assessment and strategic planning, leaving nothing to chance.',
-    },
-    {
-      icon: Heart,
-      title: 'Care',
-      description: 'Safety, dignity, and service at every touchpoint.',
-      detail: 'We protect not just physical security, but the comfort, privacy, and peace of mind of those we serve.',
-    },
-  ];
+  // Get translated data
+  const principles = t('about.principles.list', { returnObjects: true }) as Array<{
+    title: string;
+    description: string;
+    detail: string;
+  }>;
 
-  const coverage = [
-    { location: 'Belgrade', type: 'Headquarters', status: 'Primary Base' },
-    { location: 'Novi Sad', type: 'Regional Hub', status: 'Regular Operations' },
-    { location: 'Niš', type: 'Regional Hub', status: 'Regular Operations' },
-    { location: 'International', type: 'Global Reach', status: 'By Arrangement' },
-  ];
+  const coverage = t('about.coverage.locations', { returnObjects: true }) as Array<{
+    location: string;
+    type: string;
+    status: string;
+  }>;
 
-  const highlights = [
-    'Experienced operators from elite backgrounds',
-    'Continuous training and certification',
-    'Strict confidentiality protocols',
-    'Tailored protective strategies',
-    'Intelligence-led risk assessment',
-    'Seamless lifestyle integration',
-  ];
+  const highlights = t('about.story.highlights', { returnObjects: true }) as string[];
 
-  // Ref-ovi za animacije
+  // Refs for animations
   const heroRef = useRef(null);
   const storyRef = useRef(null);
   const principlesRef = useRef(null);
   const coverageRef = useRef(null);
   const ctaRef = useRef(null);
 
-  // Hook-ovi za scroll animacije
+  // Hooks for scroll animations
   const heroInView = useInView(heroRef, { once: true, amount: 0.3 });
   const storyInView = useInView(storyRef, { once: true, amount: 0.2 });
   const principlesInView = useInView(principlesRef, { once: true, amount: 0.1 });
   const coverageInView = useInView(coverageRef, { once: true, amount: 0.2 });
   const ctaInView = useInView(ctaRef, { once: true, amount: 0.3 });
 
-  // Scroll-based animacije
+  // Scroll-based animations
   const { scrollYProgress } = useScroll();
   const heroScale = useTransform(scrollYProgress, [0, 0.1], [1, 0.95]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
-  // Kontejner varijante za stagger animacije
+  // Container variants for stagger animations
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -127,6 +101,9 @@ export function About() {
     }
   };
 
+  // Icon mapping for principles
+  const principleIcons = [Eye, Award, Shield, Heart];
+
   return (
     <div className="w-full min-h-screen bg-black text-white overflow-hidden">
       <Navigation />
@@ -165,7 +142,7 @@ export function About() {
               className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#FF0000] rounded-full"
             />
             <span className="text-[#FF0000] text-xs tracking-[0.2em] uppercase font-light">
-              Trusted Worldwide
+              {t('about.hero.badge')}
             </span>
           </motion.div>
 
@@ -175,11 +152,11 @@ export function About() {
             animate={heroInView ? "visible" : "hidden"}
             className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight mb-4 md:mb-6"
           >
-            <motion.span variants={itemVariants} className="block">BESPOKE</motion.span>
+            <motion.span variants={itemVariants} className="block">{t('about.hero.title1')}</motion.span>
             <motion.span variants={itemVariants} className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0000] via-[#DD0000] to-[#FF0000]">
-              PROTECTION
+              {t('about.hero.title2')}
             </motion.span>
-            <motion.span variants={itemVariants} className="block">REDEFINED</motion.span>
+            <motion.span variants={itemVariants} className="block">{t('about.hero.title3')}</motion.span>
           </motion.h1>
 
           <motion.p
@@ -188,7 +165,7 @@ export function About() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-[#aaa] text-base sm:text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Precision, discretion, and trust — our protection adapts to your lifestyle, ensuring peace of mind through every moment.
+            {t('about.hero.subtitle')}
           </motion.p>
         </motion.div>
       </motion.section>
@@ -208,10 +185,10 @@ export function About() {
               animate={storyInView ? "visible" : "hidden"}
             >
               <motion.span variants={itemVariants} className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">
-                Our Philosophy
+                {t('about.story.badge')}
               </motion.span>
               <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-2 md:mt-3">
-                Protection That <span className="text-[#FF0000]">Fits Your Life</span>
+                {t('about.story.title')}
               </motion.h2>
             </motion.div>
 
@@ -222,10 +199,10 @@ export function About() {
               className="space-y-4 md:space-y-6"
             >
               <motion.p variants={itemVariants} className="text-[#999] text-base md:text-lg font-light leading-relaxed">
-                VIP Elite Security provides bespoke protection with a blend of discreet luxury and tactical professionalism.
+                {t('about.story.p1')}
               </motion.p>
               <motion.p variants={itemVariants} className="text-[#999] text-base md:text-lg font-light leading-relaxed">
-                Every engagement begins with <span className="text-[#FF0000] font-medium">listening</span> — understanding your lifestyle, then crafting security that integrates seamlessly.
+                {t('about.story.p2')}
               </motion.p>
             </motion.div>
 
@@ -267,15 +244,15 @@ export function About() {
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="relative aspect-square border border-[#1a1a1a] rounded-2xl bg-gradient-to-br from-[#0a0a0a] via-black to-[#0a0a0a] flex items-center justify-center p-6 md:p-8 lg:p-12"
             >
-             <motion.img
-  initial={{ opacity: 0, scale: 0.8 }}
-  animate={storyInView ? { opacity: 0.9, scale: 1 } : { opacity: 0, scale: 0.8 }}
-  transition={{ duration: 0.6, delay: 0.4 }}
-  whileHover={{ opacity: 1, scale: 1.05 }}
-  src="/vipwhiteredlogo.png"
-  alt="VIP Elite Security Logo"
-  className="w-full max-w-[250px] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] transition-opacity duration-500"
-/>
+              <motion.img
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={storyInView ? { opacity: 0.9, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                whileHover={{ opacity: 1, scale: 1.05 }}
+                src="/vipwhiteredlogo.png"
+                alt="VIP Elite Security Logo"
+                className="w-full max-w-[250px] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] transition-opacity duration-500"
+              />
               <motion.div
                 animate={{ 
                   opacity: [0.3, 0.6, 0.3],
@@ -313,12 +290,14 @@ export function About() {
             transition={{ duration: 0.7 }}
             className="mb-10 md:mb-12 lg:mb-16"
           >
-            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">Core Values</span>
+            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">
+              {t('about.principles.badge')}
+            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-2 md:mt-3 mb-3 md:mb-4">
-              Our <span className="text-[#FF0000]">Principles</span>
+              {t('about.principles.title')}
             </h2>
             <p className="text-[#999] text-base md:text-lg max-w-2xl mx-auto">
-              The foundation of every mission, engagement, and client relationship.
+              {t('about.principles.subtitle')}
             </p>
           </motion.div>
 
@@ -329,7 +308,7 @@ export function About() {
             className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 lg:gap-10"
           >
             {principles.map((p, i) => {
-              const Icon = p.icon;
+              const Icon = principleIcons[i];
               return (
                 <motion.div
                   key={i}
@@ -387,7 +366,7 @@ export function About() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-black"
               >
-                SERBIA
+                SRBIJA
               </motion.h3>
               <motion.div 
                 initial={{ width: 0 }}
@@ -401,7 +380,7 @@ export function About() {
                 transition={{ duration: 0.6, delay: 0.9 }}
                 className="text-[#999] uppercase tracking-[0.3em] text-xs md:text-sm"
               >
-                Headquarters
+                {t('about.coverage.locations.0.type')}
               </motion.span>
             </motion.div>
           </motion.div>
@@ -418,8 +397,9 @@ export function About() {
               animate={coverageInView ? "visible" : "hidden"}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6"
             >
-              <motion.span variants={itemVariants} className="text-[#FF0000]">Coverage</motion.span> 
-              <motion.span variants={itemVariants} className="block"> & Reach</motion.span>
+              <motion.span variants={itemVariants} className="">
+                {t('about.coverage.title')}
+              </motion.span>
             </motion.h2>
             
             <motion.p
@@ -428,7 +408,7 @@ export function About() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-[#999] text-base md:text-lg font-light mb-6 md:mb-8 leading-relaxed"
             >
-              Headquartered in Belgrade, Serbia. Regular operations across Serbia and international deployments by arrangement.
+              {t('about.coverage.description')}
             </motion.p>
 
             <motion.div
@@ -478,7 +458,7 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black"
           >
-            Ready to Experience <span className="text-[#FF0000]">Elite Protection?</span>
+            {t('about.cta.title')} <span className="text-[#FF0000]">{t('about.cta.highlight')}</span>
           </motion.h2>
           
           <motion.p
@@ -487,7 +467,7 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-[#aaa] text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed"
           >
-            Contact us for a confidential consultation. We'll listen to your needs and design a protection solution that fits seamlessly into your lifestyle.
+            {t('about.cta.subtitle')}
           </motion.p>
 
           <motion.div
@@ -502,7 +482,7 @@ export function About() {
               href="/contact"
               className="group relative px-8 py-4 md:px-12 md:py-5 bg-[#FF0000] text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] overflow-hidden rounded-md transition-all duration-300"
             >
-              <span className="relative z-10">Schedule Consultation</span>
+              <span className="relative z-10">{t('about.cta.button1')}</span>
               <motion.div 
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "100%" }}
@@ -517,7 +497,7 @@ export function About() {
               href="/services"
               className="px-8 py-4 md:px-12 md:py-5 border border-[#333] text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] rounded-md transition-all duration-300"
             >
-              View Services
+              {t('about.cta.button2')}
             </motion.a>
           </motion.div>
         </motion.div>

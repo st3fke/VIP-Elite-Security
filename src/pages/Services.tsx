@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { motion, useInView } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Shield, Star, Crown, Target, Users, Home, Car, Plane, Globe, ShieldCheck } from 'lucide-react';
 import { CloseProtection } from '../components/services/CloseProtection';
 import { CovertProtection } from '../components/services/CovertProtection';
@@ -24,6 +25,7 @@ import { RiskManagement } from '../components/services/RiskManagement';
 import { ScrollToTop } from '../utils/scrollToTop';
 
 export function Services() {
+  const { t } = useTranslation();
   const heroRef = useRef(null);
   const statsRef = useRef(null);
   const heroInView = useInView(heroRef, { once: true, amount: 0.3 });
@@ -79,47 +81,47 @@ export function Services() {
   const serviceHighlights = [
     {
       icon: Target,
-      title: "Executive Protection",
-      description: "24/7 close protection for high-profile individuals",
+      title: t('services.highlights.cards.0.title'),
+      description: t('services.highlights.cards.0.desc'),
       gradient: "from-red-500/20 to-orange-500/20"
     },
     {
       icon: Users,
-      title: "Family Security",
-      description: "Comprehensive protection for your loved ones",
+      title: t('services.highlights.cards.1.title'),
+      description: t('services.highlights.cards.1.desc'),
       gradient: "from-blue-500/20 to-cyan-500/20"
     },
     {
       icon: Home,
-      title: "Residential",
-      description: "Secure your homes and properties",
+      title: t('services.highlights.cards.2.title'),
+      description: t('services.highlights.cards.2.desc'),
       gradient: "from-green-500/20 to-emerald-500/20"
     },
     {
       icon: Car,
-      title: "Transport Security",
-      description: "Armored vehicles and secure transportation",
+      title: t('services.highlights.cards.3.title'),
+      description: t('services.highlights.cards.3.desc'),
       gradient: "from-purple-500/20 to-violet-500/20"
     },
     {
       icon: Plane,
-      title: "Travel Security",
-      description: "Global protection during business and leisure travel",
+      title: t('services.highlights.cards.4.title'),
+      description: t('services.highlights.cards.4.desc'),
       gradient: "from-amber-500/20 to-yellow-500/20"
     },
     {
       icon: Globe,
-      title: "Event Security",
-      description: "Large-scale event protection and crowd management",
+      title: t('services.highlights.cards.5.title'),
+      description: t('services.highlights.cards.5.desc'),
       gradient: "from-pink-500/20 to-rose-500/20"
     }
   ];
 
   const stats = [
-    { number: "24/7", label: "Protection Coverage" },
-    { number: "100+", label: "Elite Clients" },
-    { number: "50+", label: "Countries Served" },
-    { number: "0", label: "Security Breaches" }
+    { number: t('services.stats.0.number'), label: t('services.stats.0.label') },
+    { number: t('services.stats.1.number'), label: t('services.stats.1.label') },
+    { number: t('services.stats.2.number'), label: t('services.stats.2.label') },
+    { number: t('services.stats.3.number'), label: t('services.stats.3.label') }
   ];
 
   return (
@@ -179,7 +181,7 @@ export function Services() {
               className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#FF0000] rounded-full"
             />
             <span className="text-[#FF0000] text-xs tracking-[0.2em] uppercase font-light">
-              Elite Protection Services
+              {t('services.hero.badge')}
             </span>
           </motion.div>
 
@@ -189,11 +191,11 @@ export function Services() {
             animate={heroInView ? "visible" : "hidden"}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-tight mb-4 md:mb-6"
           >
-            <motion.span variants={itemVariants} className="block">BESPOKE</motion.span>
+            <motion.span variants={itemVariants} className="block">{t('services.hero.title1')}</motion.span>
             <motion.span variants={itemVariants} className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0000] via-[#DD0000] to-[#FF0000]">
-              SECURITY
+              {t('services.hero.title2')}
             </motion.span>
-            <motion.span variants={itemVariants} className="block">SOLUTIONS</motion.span>
+            <motion.span variants={itemVariants} className="block">{t('services.hero.title3')}</motion.span>
           </motion.h1>
 
           <motion.p
@@ -202,8 +204,7 @@ export function Services() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-[#aaa] text-base sm:text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto font-light leading-relaxed mb-8"
           >
-            Comprehensive protection services tailored for high-net-worth individuals, 
-            executives, and their families worldwide.
+            {t('services.hero.subtitle')}
           </motion.p>
 
           <motion.div
@@ -218,7 +219,7 @@ export function Services() {
               href="/contact"
               className="px-8 py-4 bg-[#FF0000] text-white font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-red-700 transition-colors"
             >
-              Request Consultation
+              {t('services.hero.btn1')}
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.05, borderColor: "#FF0000", backgroundColor: "rgba(255, 0, 0, 0.1)" }}
@@ -226,7 +227,7 @@ export function Services() {
               href="#services"
               className="px-8 py-4 border border-[#333] text-white font-bold uppercase tracking-[0.2em] rounded-lg transition-all"
             >
-              Explore Services
+              {t('services.hero.btn2')}
             </motion.a>
           </motion.div>
         </motion.div>
@@ -242,12 +243,14 @@ export function Services() {
             viewport={{ once: true }}
             className="text-center mb-12 md:mb-16"
           >
-            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">Our Expertise</span>
+            <span className="text-[#FF0000]/80 text-xs sm:text-sm uppercase tracking-[0.25em]">
+              {t('services.highlights.sectionBadge')}
+            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-2 md:mt-3 mb-4 md:mb-6">
-              Comprehensive <span className="text-[#FF0000]">Protection</span>
+              {t('services.highlights.title')}
             </h2>
             <p className="text-[#999] text-base md:text-lg max-w-2xl mx-auto">
-              Tailored security solutions for every aspect of your life and business
+              {t('services.highlights.subtitle')}
             </p>
           </motion.div>
 
@@ -348,16 +351,16 @@ export function Services() {
           >
             <ShieldCheck className="w-4 h-4 text-[#FF0000]" />
             <span className="text-[#FF0000] text-xs tracking-[0.2em] uppercase font-light">
-              Ready for Elite Protection?
+              {t('services.cta.badge')}
             </span>
           </motion.div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black">
-            Begin Your <span className="text-[#FF0000]">Security Assessment</span>
+            {t('services.cta.title')}
           </h2>
           
           <p className="text-[#aaa] text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-            Contact us for a confidential consultation and let us design a protection strategy that integrates seamlessly with your lifestyle.
+            {t('services.cta.subtitle')}
           </p>
 
           <motion.div
@@ -372,7 +375,7 @@ export function Services() {
               href="/contact"
               className="px-8 py-4 bg-[#FF0000] text-white font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-red-700 transition-colors"
             >
-              Schedule Consultation
+              {t('services.cta.button')}
             </motion.a>
           </motion.div>
         </motion.div>
@@ -397,7 +400,6 @@ export function Services() {
       <JourneyManagement />
       <MedicalSupport />
       
-
       <Footer />
       <ScrollToTop />
     </div>

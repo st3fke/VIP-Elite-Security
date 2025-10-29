@@ -1,10 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
+import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
 import { Phone, Mail, MapPin, Shield, Clock, Send } from 'lucide-react';
 
 export function Contact() {
+  const { t } = useTranslation();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,6 +19,12 @@ export function Contact() {
     consent: false
   });
 
+  // Get services array safely
+  const services = React.useMemo(() => {
+    const servicesData = t('contact.services', { returnObjects: true });
+    return Array.isArray(servicesData) ? servicesData : [];
+  }, [t]);
+
   const heroRef = useRef(null);
   const formRef = useRef(null);
   const contactInView = useInView(heroRef, { once: true, amount: 0.3 });
@@ -24,7 +33,7 @@ export function Contact() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    alert('Thank you for your inquiry. A protection manager will contact you shortly.');
+    alert(t('contact.form.success'));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -35,6 +44,7 @@ export function Contact() {
       [name]: type === 'checkbox' ? checked : value
     }));
   };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -82,14 +92,25 @@ export function Contact() {
     }
   };
 
-  const services = [
-    'Executive Protection',
-    'Event Security',
-    'Residential Security',
-    'Corporate Security',
-    'Travel Security',
-    'Risk Assessment',
-    'Other'
+  const contactInfo = [
+    {
+      icon: Phone,
+      title: t('contact.info.cards.0.title'),
+      subtitle: t('contact.info.cards.0.subtitle'),
+      text: t('contact.info.cards.0.text')
+    },
+    {
+      icon: Mail,
+      title: t('contact.info.cards.1.title'),
+      subtitle: t('contact.info.cards.1.subtitle'),
+      text: t('contact.info.cards.1.text')
+    },
+    {
+      icon: MapPin,
+      title: t('contact.info.cards.2.title'),
+      subtitle: t('contact.info.cards.2.subtitle'),
+      text: t('contact.info.cards.2.text')
+    }
   ];
 
   return (
@@ -126,7 +147,7 @@ export function Contact() {
               className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#FF0000] rounded-full"
             />
             <span className="text-[#FF0000] text-xs tracking-[0.2em] uppercase font-light">
-              Confidential Consultation
+              {t('contact.hero.badge')}
             </span>
           </motion.div>
 
@@ -136,9 +157,9 @@ export function Contact() {
             animate={contactInView ? "visible" : "hidden"}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-tight mb-4 md:mb-6"
           >
-            <motion.span variants={itemVariants} className="block">CONTACT</motion.span>
+            <motion.span variants={itemVariants} className="block">{t('contact.hero.title1')}</motion.span>
             <motion.span variants={itemVariants} className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF0000] via-[#DD0000] to-[#FF0000]">
-              VIP ELITE
+              {t('contact.hero.title2')}
             </motion.span>
           </motion.h1>
 
@@ -148,7 +169,7 @@ export function Contact() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-[#aaa] text-base sm:text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Begin your journey to elite protection. Share your requirements for a confidential assessment.
+            {t('contact.hero.subtitle')}
           </motion.p>
         </motion.div>
       </section>
@@ -163,56 +184,25 @@ export function Contact() {
             viewport={{ once: true, amount: 0.2 }}
             className="grid md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20"
           >
-            <motion.div
-              variants={cardVariants}
-              whileHover="hover"
-              className="bg-gradient-to-br from-[#0a0a0a] to-black border border-[#1a1a1a] p-8 text-center hover:border-[#FF0000]/40 transition-all duration-500 group rounded-xl"
-            >
+            {contactInfo.map((info, index) => (
               <motion.div
-                whileHover={{ scale: 1.1, rotate: 360 }}
-                transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                className="w-16 h-16 bg-[#FF0000]/10 border border-[#FF0000]/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#FF0000] transition-colors"
+                key={index}
+                variants={cardVariants}
+                whileHover="hover"
+                className="bg-gradient-to-br from-[#0a0a0a] to-black border border-[#1a1a1a] p-8 text-center hover:border-[#FF0000]/40 transition-all duration-500 group rounded-xl"
               >
-                <Phone className="w-7 h-7 text-[#FF0000] group-hover:text-white" />
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 360 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  className="w-16 h-16 bg-[#FF0000]/10 border border-[#FF0000]/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#FF0000] transition-colors"
+                >
+                  <info.icon className="w-7 h-7 text-[#FF0000] group-hover:text-white" />
+                </motion.div>
+                <h3 className="text-white font-bold text-xl mb-3">{info.title}</h3>
+                <p className="text-[#FF0000] font-medium mb-2">{info.subtitle}</p>
+                <p className="text-[#aaa] text-sm">{info.text}</p>
               </motion.div>
-              <h3 className="text-white font-bold text-xl mb-3">24/7 Phone</h3>
-              <p className="text-[#FF0000] font-medium mb-2">+381 66 030 4411</p>
-              <p className="text-[#aaa] text-sm">Always available for urgent inquiries</p>
-            </motion.div>
-
-            <motion.div
-              variants={cardVariants}
-              whileHover="hover"
-              className="bg-gradient-to-br from-[#0a0a0a] to-black border border-[#1a1a1a] p-8 text-center hover:border-[#FF0000]/40 transition-all duration-500 group rounded-xl"
-            >
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 360 }}
-                transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                className="w-16 h-16 bg-[#FF0000]/10 border border-[#FF0000]/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#FF0000] transition-colors"
-              >
-                <Mail className="w-7 h-7 text-[#FF0000] group-hover:text-white" />
-              </motion.div>
-              <h3 className="text-white font-bold text-xl mb-3">Email</h3>
-              <p className="text-[#FF0000] font-medium mb-2">info@vipelitesecurity.com</p>
-              <p className="text-[#aaa] text-sm">Secure encrypted communication</p>
-            </motion.div>
-
-            <motion.div
-              variants={cardVariants}
-              whileHover="hover"
-              className="bg-gradient-to-br from-[#0a0a0a] to-black border border-[#1a1a1a] p-8 text-center hover:border-[#FF0000]/40 transition-all duration-500 group rounded-xl"
-            >
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 360 }}
-                transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                className="w-16 h-16 bg-[#FF0000]/10 border border-[#FF0000]/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#FF0000] transition-colors"
-              >
-                <MapPin className="w-7 h-7 text-[#FF0000] group-hover:text-white" />
-              </motion.div>
-              <h3 className="text-white font-bold text-xl mb-3">Headquarters</h3>
-              <p className="text-[#FF0000] font-medium mb-2">Belgrade, Serbia</p>
-              <p className="text-[#aaa] text-sm">Global operations available</p>
-            </motion.div>
+            ))}
           </motion.div>
 
           {/* CONFIDENTIAL MESSAGE */}
@@ -228,7 +218,7 @@ export function Contact() {
               <Clock className="w-6 h-6 text-[#FF0000]" />
             </div>
             <p className="text-[#aaa] text-lg md:text-xl leading-relaxed">
-              For confidential inquiries, please share: <span className="text-white font-medium">name, contact details, dates, locations, number of persons, and the services required.</span> A protection manager will respond promptly.
+              {t('contact.info.confidential.text')} <span className="text-white font-medium">{t('contact.info.confidential.highlight')}</span> {t('contact.info.confidential.followup')}
             </p>
           </motion.div>
         </div>
@@ -250,10 +240,10 @@ export function Contact() {
               className="text-center mb-10"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
-                Confidential <span className="text-[#FF0000]">Inquiry</span>
+                {t('contact.form.title').split(' ')[0]} <span className="text-[#FF0000]">{t('contact.form.title').split(' ')[1]}</span>
               </h2>
               <p className="text-[#aaa] text-lg">
-                Complete the form below and our protection manager will contact you within 24 hours.
+                {t('contact.form.subtitle')}
               </p>
             </motion.div>
 
@@ -265,7 +255,7 @@ export function Contact() {
                   transition={{ duration: 0.6, delay: 0.3 }}
                 >
                   <label htmlFor="name" className="block text-white font-medium mb-3">
-                    Full Name *
+                    {t('contact.form.name')}
                   </label>
                   <input
                     type="text"
@@ -275,7 +265,7 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
-                    placeholder="Enter your full name"
+                    placeholder={t('contact.form.namePlaceholder')}
                   />
                 </motion.div>
 
@@ -285,7 +275,7 @@ export function Contact() {
                   transition={{ duration: 0.6, delay: 0.4 }}
                 >
                   <label htmlFor="email" className="block text-white font-medium mb-3">
-                    Email Address *
+                    {t('contact.form.email')}
                   </label>
                   <input
                     type="email"
@@ -295,7 +285,7 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
-                    placeholder="Enter your email"
+                    placeholder={t('contact.form.emailPlaceholder')}
                   />
                 </motion.div>
 
@@ -305,7 +295,7 @@ export function Contact() {
                   transition={{ duration: 0.6, delay: 0.5 }}
                 >
                   <label htmlFor="phone" className="block text-white font-medium mb-3">
-                    Phone Number *
+                    {t('contact.form.phone')}
                   </label>
                   <input
                     type="tel"
@@ -315,7 +305,7 @@ export function Contact() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
-                    placeholder="+381 XX XXX XXXX"
+                    placeholder={t('contact.form.phonePlaceholder')}
                   />
                 </motion.div>
 
@@ -325,7 +315,7 @@ export function Contact() {
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
                   <label htmlFor="service" className="block text-white font-medium mb-3">
-                    Service Required *
+                    {t('contact.form.service')}
                   </label>
                   <select
                     id="service"
@@ -335,8 +325,8 @@ export function Contact() {
                     onChange={handleChange}
                     className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
                   >
-                    <option value="">Select a service</option>
-                    {services.map((service, index) => (
+                    <option value="">{t('contact.form.servicePlaceholder')}</option>
+                    {services.map((service: string, index: number) => (
                       <option key={index} value={service}>{service}</option>
                     ))}
                   </select>
@@ -348,7 +338,7 @@ export function Contact() {
                   transition={{ duration: 0.6, delay: 0.7 }}
                 >
                   <label htmlFor="dates" className="block text-white font-medium mb-3">
-                    Dates
+                    {t('contact.form.dates')}
                   </label>
                   <input
                     type="text"
@@ -357,7 +347,7 @@ export function Contact() {
                     value={formData.dates}
                     onChange={handleChange}
                     className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
-                    placeholder="Preferred dates or duration"
+                    placeholder={t('contact.form.datesPlaceholder')}
                   />
                 </motion.div>
 
@@ -367,7 +357,7 @@ export function Contact() {
                   transition={{ duration: 0.6, delay: 0.8 }}
                 >
                   <label htmlFor="locations" className="block text-white font-medium mb-3">
-                    Locations
+                    {t('contact.form.locations')}
                   </label>
                   <input
                     type="text"
@@ -376,7 +366,7 @@ export function Contact() {
                     value={formData.locations}
                     onChange={handleChange}
                     className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
-                    placeholder="Cities or countries involved"
+                    placeholder={t('contact.form.locationsPlaceholder')}
                   />
                 </motion.div>
               </div>
@@ -387,7 +377,7 @@ export function Contact() {
                 transition={{ duration: 0.6, delay: 0.9 }}
               >
                 <label htmlFor="message" className="block text-white font-medium mb-3">
-                  Additional Details *
+                  {t('contact.form.message')}
                 </label>
                 <textarea
                   id="message"
@@ -397,7 +387,7 @@ export function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
-                  placeholder="Please include number of persons, specific requirements, and any other relevant details..."
+                  placeholder={t('contact.form.messagePlaceholder')}
                 />
               </motion.div>
 
@@ -417,8 +407,7 @@ export function Contact() {
                   className="w-5 h-5 mt-1 bg-black/50 border border-[#333] rounded focus:border-[#FF0000] focus:outline-none"
                 />
                 <label htmlFor="consent" className="text-[#aaa] text-sm leading-relaxed">
-                  I consent to the processing of my personal data in accordance with the Privacy Policy. 
-                  I understand that all information shared will be treated with strict confidentiality.
+                  {t('contact.form.consent')}
                 </label>
               </motion.div>
 
@@ -435,7 +424,7 @@ export function Contact() {
                   className="bg-[#FF0000] text-white px-12 py-4 font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-red-700 transition-colors flex items-center gap-3 mx-auto"
                 >
                   <Send className="w-5 h-5" />
-                  Send Confidential Message
+                  {t('contact.form.button')}
                 </motion.button>
               </motion.div>
             </form>

@@ -1,14 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 export function ArmoredCarHire() {
-  const features = [
-    'Certified ballistic protection vehicles',
-    'Armored sedans and SUVs with trained drivers',
-    'Vehicle selection based on mission profile',
-    'Maintenance and readiness checks',
-    'Integration with escort and convoy teams'
-  ];
+  const { t } = useTranslation();
+  const features = t('servicesDetails.armoredCarHire.features', { returnObjects: true }) as string[];
+
   return (
     <section id='armored-car-hire' className="bg-gradient-to-b from-black to-gray-900 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,10 +14,13 @@ export function ArmoredCarHire() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <ShieldCheck className="w-12 h-12 text-primary-red" />
-              <h2 className="text-4xl font-bold text-white">Armored Car Hire</h2>
+              <h2 className="text-4xl font-bold text-white">{t('servicesDetails.armoredCarHire.title')}</h2>
             </div>
             <p className="text-gray-400 text-lg mb-6">
-              Hire armored vehicles tailored to your security needs, operated by trained and vetted professionals.
+              {t('servicesDetails.armoredCarHire.description1')}
+            </p>
+            <p className="text-gray-400 text-lg mb-6">
+              {t('servicesDetails.armoredCarHire.description2')}
             </p>
             <ul className="space-y-3">
               {features.map((f, i) => (
@@ -31,7 +32,7 @@ export function ArmoredCarHire() {
             </ul>
           </div>
           <div className="relative">
-            <img src="https://images.unsplash.com/photo-1615554968012-8b59a5c0b1b1?w=800&q=70" alt="Armored Car Hire" className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="https://images.unsplash.com/photo-1615554968012-8b59a5c0b1b1?w=800&q=70" alt={t('servicesDetails.armoredCarHire.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </motion.div>
