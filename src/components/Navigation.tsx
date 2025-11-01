@@ -23,24 +23,24 @@ export function Navigation() {
   }, []);
 
   const services = [
-    { id: 'close-protection', label: 'Close Protection', icon: '🛡️' },
-    { id: 'covert-protection', label: 'Covert Protection', icon: '🕵️' },
-    { id: 'family-security', label: 'Family Security', icon: '👨‍👩‍👧‍👦' },
-    { id: 'residential-security', label: 'Residential Security', icon: '🏠' },
-    { id: 'event-security', label: 'Event Security', icon: '🎭' },
-    { id: 'transport-security', label: 'Transport Security', icon: '🚗' },
-    { id: 'travel-security', label: 'Travel Security', icon: '✈️' },
-    { id: 'cyber-security', label: 'Cyber Security', icon: '💻' },
-    { id: 'armored-car-hire', label: 'Armored Car Hire', icon: '🚙' },
-    { id: 'armored-luxury-transport', label: 'Armored Luxury Transport', icon: '🏎️' },
-    { id: 'bug-sweeping', label: 'Bug Sweeping', icon: '🔍' },
-    { id: 'helicopter-transport', label: 'Helicopter Transport', icon: '🚁' },
-    { id: 'protective-surveillance', label: 'Protective Surveillance', icon: '👁️' },
-    { id: 'security-driver', label: 'Security Driver', icon: '🚘' },
-    { id: 'armed-security-driver', label: 'Armed Security Driver', icon: '🔫' },
-    { id: 'risk-management', label: 'Risk Management', icon: '⚠️' },
-  { id: 'journey-management', label: 'Journey Management', icon: '🗺️' },
-  { id: 'medical-support', label: 'Medical Support', icon: '🩺' }
+    { id: 'close-protection', label: t('servicesDetails.closeProtection.title'), icon: '🛡️' },
+    { id: 'covert-protection', label: t('servicesDetails.covertProtection.title'), icon: '🕵️' },
+    { id: 'family-security', label: t('servicesDetails.familySecurity.title'), icon: '👨‍👩‍👧‍👦' },
+    { id: 'residential-security', label:  t('servicesDetails.residentialSecurity.title'), icon: '🏠' },
+    { id: 'event-security', label: t('servicesDetails.eventSecurity.title'), icon: '🎭' },
+    { id: 'transport-security', label: t('servicesDetails.transportSecurity.title'), icon: '🚗' },
+    { id: 'travel-security', label: t('servicesDetails.travelSecurity.title'), icon: '✈️' },
+    { id: 'cyber-security', label: t('servicesDetails.cyberSecurity.title'), icon: '💻' },
+    { id: 'armored-car-hire', label: t('servicesDetails.armoredCarHire.title'), icon: '🚙' },
+    { id: 'armored-luxury-transport', label: t('servicesDetails.armoredLuxuryTransport.title'), icon: '🏎️' },
+    { id: 'bug-sweeping', label: t('servicesDetails.bugSweeping.title'), icon: '🔍' },
+    { id: 'helicopter-transport', label: t('servicesDetails.helicopterTransport.title'), icon: '🚁' },
+    { id: 'protective-surveillance', label: t('servicesDetails.protectiveSurveillance.title'), icon: '👁️' },
+    { id: 'security-driver', label: t('servicesDetails.riskManagement.title'), icon: '🚘' },
+    { id: 'armed-security-driver', label: t('servicesDetails.securityDriver.title'), icon: '🔫' },
+    { id: 'risk-management', label: t('servicesDetails.armedSecurityDriver.title'), icon: '⚠️' },
+  { id: 'journey-management', label: t('servicesDetails.journeyManagement.title'), icon: '🗺️' },
+  { id: 'medical-support', label: t('servicesDetails.medicalSupport.title'), icon: '🩺' }
   ];
 
   const navItems = [

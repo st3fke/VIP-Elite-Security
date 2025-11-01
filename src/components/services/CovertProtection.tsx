@@ -21,7 +21,7 @@ export function CovertProtection() {
             className="order-2 lg:order-1 relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1574607383476-f517f260d30b?w=800"
+              src="/covertProtection.png"
               alt={t('servicesDetails.covertProtection.title')}
               className="w-full h-[500px] object-cover border border-white/10 transition-transform hover:scale-[1.02]"
             />

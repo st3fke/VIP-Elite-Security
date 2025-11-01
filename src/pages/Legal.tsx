@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { Shield, Eye, FileText, AlertTriangle, Award, Star, Crown, Check, Scale, Lock } from 'lucide-react';
 import { Footer } from '../components/Footer';
 import { Navigation } from '../components/Navigation';
+import { Helmet } from 'react-helmet-async';
 
 // Define types for the translation data
 interface TranslationPoints {
@@ -73,7 +74,21 @@ export function Legal() {
   const privacyPoints = t('legal.privacy.points', { returnObjects: true }) as string[];
   const termsPoints = t('legal.terms.points', { returnObjects: true }) as string[];
 
-  return (
+  return (<>
+  <Helmet>
+        <title>VIP Elite Security — Elite Protection, Discreetly Delivered</title>
+        <meta
+          name="description"
+          content="Elite private security from Serbia. Close protection, journey management, and cybersecurity for discerning clients."
+        />
+        <meta property="og:title" content="VIP Elite Security" />
+        <meta property="og:description" content="Bespoke protection combining luxury and tactical professionalism." />
+        <meta property="og:image" content="/assets/og-image.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://vipelitesecurity.com" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://vipelitesecurity.com" />
+      </Helmet>
     <div className="w-full min-h-screen bg-black text-white overflow-hidden">
       <Navigation />
 
@@ -464,5 +479,6 @@ export function Legal() {
 
       <Footer />
     </div>
+    </>
   );
 }

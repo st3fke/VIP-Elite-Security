@@ -4,7 +4,7 @@ import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { Shield, Eye, Award, Heart, MapPin, Globe2, Check } from 'lucide-react';
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-
+import { Helmet } from 'react-helmet-async';
 export function About() {
   const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
@@ -105,6 +105,21 @@ export function About() {
   const principleIcons = [Eye, Award, Shield, Heart];
 
   return (
+    <>
+    <Helmet>
+        <title>VIP Elite Security — About</title>
+        <meta
+          name="description"
+          content="Elite private security from Serbia. Close protection, journey management, and cybersecurity for discerning clients."
+        />
+        <meta property="og:title" content="VIP Elite Security" />
+        <meta property="og:description" content="Bespoke protection combining luxury and tactical professionalism." />
+        <meta property="og:image" content="/assets/og-image.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://vipelitesecurity.com" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://vipelitesecurity.com" />
+      </Helmet>
     <div className="w-full min-h-screen bg-black text-white overflow-hidden">
       <Navigation />
 
@@ -505,5 +520,6 @@ export function About() {
 
       <Footer />
     </div>
+    </>
   );
 }

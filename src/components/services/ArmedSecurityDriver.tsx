@@ -28,7 +28,7 @@ export function ArmedSecurityDriver() {
             </ul>
           </div>
           <div className="relative">
-            <img src="https://images.unsplash.com/photo-1597008630913-5a0a0e7d71a6?w=800&q=70" alt={t('servicesDetails.armedSecurityDriver.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="/armedSecurityDriver.png" alt={t('servicesDetails.armedSecurityDriver.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </motion.div>

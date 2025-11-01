@@ -12,7 +12,7 @@ export function MedicalSupport() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1 relative">
-            <img src="https://images.unsplash.com/photo-1576765607924-3f7b0b8f0035?w=800&q=70" alt={t('servicesDetails.medicalSupport.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="/medicalSupport.jpeg" alt={t('servicesDetails.medicalSupport.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="order-1 lg:order-2">

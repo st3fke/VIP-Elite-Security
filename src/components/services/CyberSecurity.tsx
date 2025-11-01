@@ -18,7 +18,7 @@ export function CyberSecurity() {
         >
           <div className="order-2 lg:order-1 relative">
             <img
-              src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800"
+              src="/cyberSecurity.jpg"
               alt={t('servicesDetails.cyberSecurity.title')}
               className="w-full h-[500px] object-cover border border-white/10"
             />

@@ -53,7 +53,7 @@ export function CloseProtection() {
             className="relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1560264280-88b68371db39?w=800"
+              src="/closeProtection.png"
               alt={t('servicesDetails.closeProtection.title')}
               className="w-full h-[500px] object-cover border border-white/10 transition-transform hover:scale-[1.02]"
             />

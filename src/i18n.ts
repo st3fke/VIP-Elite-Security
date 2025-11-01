@@ -243,7 +243,9 @@ const resources = {
           messagePlaceholder: "Please include number of persons, specific requirements, and any other relevant details...",
           consent: "I consent to the processing of my personal data in accordance with the Privacy Policy. I understand that all information shared will be treated with strict confidentiality.",
           button: "Send Confidential Message",
-          success: "Thank you for your inquiry. A protection manager will contact you shortly."
+          successMessage: "Thank you for your inquiry. A protection manager will contact you shortly.",
+          errorMessage: "Sorry, there was an error sending your message. Please try again.",
+          submitting: "Sending..."
         },
         services: [
           "Executive Protection",
@@ -253,7 +255,19 @@ const resources = {
           "Travel Security",
           "Risk Assessment",
           "Other"
-        ]
+        ],
+        validation: {
+      nameRequired: "Name is required",
+      nameMinLength: "Name must be at least 2 characters",
+      emailRequired: "Email is required",
+      emailInvalid: "Please enter a valid email address",
+      phoneRequired: "Phone number is required",
+      phoneInvalid: "Please enter a valid phone number",
+      serviceRequired: "Please select a service",
+      messageRequired: "Message is required",
+      messageMinLength: "Message must be at least 10 characters",
+      consentRequired: "You must agree to the privacy policy"
+    },
       },
       footer: {
         description: 'Elite protection services delivered with discretion and professionalism. Trusted by high-net-worth individuals, executives, and families in Serbia and around the world.',
@@ -568,7 +582,7 @@ const resources = {
         getQuote: 'Zatraži Ponudu',
         availability: 'Dostupnost',
         yearsExperience: 'Godina Iskustva',
-        countries: 'Zemlje',
+        countries: 'Država',
         discretion: 'Diskrecija'
       },
       services: {
@@ -790,7 +804,9 @@ const resources = {
           messagePlaceholder: "Unesite broj osoba, specifične zahteve i sve druge relevantne detalje...",
           consent: "Slažem se sa obradom svojih ličnih podataka u skladu sa Politikom Privatnosti. Razumem da će svi podaci biti tretirani kao strogo poverljivi.",
           button: "Pošalji Poverljivu Poruku",
-          success: "Hvala na vašem upitu. Menadžer zaštite će vas uskoro kontaktirati."
+          successMessage: "Hvala na vašem upitu. Menadžer zaštite će vas uskoro kontaktirati.",
+          errorMessage: "Izvinite, nastala je greška prilikom slanja. Molimo pokušajte opet.",
+          submitting: "Slanje..."
         },
         services: [
           "Izvršna Zaštita",
@@ -800,7 +816,19 @@ const resources = {
           "Bezbednost Putovanja",
           "Procena Rizika",
           "Ostalo"
-        ]
+        ],
+        validation: {
+      nameRequired: "Ime je obavezno",
+      nameMinLength: "Ime mora imati najmanje 2 karaktera",
+      emailRequired: "Email je obavezan",
+      emailInvalid: "Molimo unesite validnu email adresu",
+      phoneRequired: "Broj telefona je obavezan",
+      phoneInvalid: "Molimo unesite validan broj telefona",
+      serviceRequired: "Molimo odaberite uslugu",
+      messageRequired: "Poruka je obavezna",
+      messageMinLength: "Poruka mora imati najmanje 10 karaktera",
+      consentRequired: "Morate se složiti sa politikom privatnosti"
+    },
       },
       footer: {
         description: 'Elitne usluge zaštite isporučene sa diskrecijom i profesionalnošću. Pouzdani od strane imućnih pojedinaca, rukovodilaca i porodica u Srbiji i širom sveta.',

@@ -18,7 +18,7 @@ export function TransportSecurity() {
         >
           <div className="order-2 lg:order-1 relative">
             <img
-              src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800"
+              src="/secureTransport.png"
               alt={t('servicesDetails.transportSecurity.title')}
               className="w-full h-[500px] object-cover border border-white/10"
             />

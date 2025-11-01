@@ -32,7 +32,7 @@ export function ArmoredCarHire() {
             </ul>
           </div>
           <div className="relative">
-            <img src="https://images.unsplash.com/photo-1615554968012-8b59a5c0b1b1?w=800&q=70" alt={t('servicesDetails.armoredCarHire.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="/armoredCar.jpeg" alt={t('servicesDetails.armoredCarHire.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </motion.div>

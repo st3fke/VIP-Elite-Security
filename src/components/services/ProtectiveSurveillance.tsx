@@ -28,7 +28,7 @@ export function ProtectiveSurveillance() {
             </ul>
           </div>
           <div className="relative">
-            <img src="https://images.unsplash.com/photo-1534081333815-ae5019106622?w=800&q=70" alt={t('servicesDetails.protectiveSurveillance.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="/protectiveSurveillance.png" alt={t('servicesDetails.protectiveSurveillance.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </motion.div>

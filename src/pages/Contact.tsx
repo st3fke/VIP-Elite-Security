@@ -3,8 +3,9 @@ import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
-import { Phone, Mail, MapPin, Shield, Clock, Send } from 'lucide-react';
-
+import { Phone, Mail, MapPin, Shield, Clock, Send, CheckCircle, XCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+import { Helmet } from 'react-helmet-async';
 export function Contact() {
   const { t } = useTranslation();
   
@@ -19,6 +20,10 @@ export function Contact() {
     consent: false
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   // Get services array safely
   const services = React.useMemo(() => {
     const servicesData = t('contact.services', { returnObjects: true });
@@ -30,19 +35,133 @@ export function Contact() {
   const contactInView = useInView(heroRef, { once: true, amount: 0.3 });
   const formInView = useInView(formRef, { once: true, amount: 0.2 });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert(t('contact.form.success'));
+  // Validation functions
+  const validateField = (name: string, value: string | boolean): string => {
+    switch (name) {
+      case 'name':
+        if (!value) return t('contact.validation.nameRequired');
+        if (typeof value === 'string' && value.length < 2) return t('contact.validation.nameMinLength');
+        return '';
+      
+      case 'email':
+        if (!value) return t('contact.validation.emailRequired');
+        if (typeof value === 'string') {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(value)) return t('contact.validation.emailInvalid');
+        }
+        return '';
+      
+      case 'phone':
+        if (!value) return t('contact.validation.phoneRequired');
+        if (typeof value === 'string') {
+          const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+          if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, ''))) return t('contact.validation.phoneInvalid');
+        }
+        return '';
+      
+      case 'service':
+        if (!value) return t('contact.validation.serviceRequired');
+        return '';
+      
+      case 'message':
+        if (!value) return t('contact.validation.messageRequired');
+        if (typeof value === 'string' && value.length < 10) return t('contact.validation.messageMinLength');
+        return '';
+      
+      case 'consent':
+        if (!value) return t('contact.validation.consentRequired');
+        return '';
+      
+      default:
+        return '';
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    
+    Object.keys(formData).forEach(key => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) {
+        newErrors[key] = error;
+      }
+    });
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = 'checked' in e.target ? e.target.checked : false;
+    
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+
+  const clearForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      service: '',
+      dates: '',
+      locations: '',
+      message: '',
+      consent: false
+    });
+    setErrors({});
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // service_id, template_id and public key will get from Emailjs website when you create account and add template service and email service 
+      await emailjs.send(
+        'service_zpblj3j', 
+        'template_ltfm4nm', 
+        formData, 
+        'Cw9ePE10J7RBb1JmC'
+      );
+      
+      setSubmitStatus('success');
+      clearForm();
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+      
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -114,6 +233,21 @@ export function Contact() {
   ];
 
   return (
+    <>
+    <Helmet>
+        <title>VIP Elite Security — Elite Protection, Discreetly Delivered</title>
+        <meta
+          name="description"
+          content="Elite private security from Serbia. Close protection, journey management, and cybersecurity for discerning clients."
+        />
+        <meta property="og:title" content="VIP Elite Security" />
+        <meta property="og:description" content="Bespoke protection combining luxury and tactical professionalism." />
+        <meta property="og:image" content="/assets/og-image.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://vipelitesecurity.com" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://vipelitesecurity.com" />
+      </Helmet>
     <div className="w-full min-h-screen bg-black text-white overflow-hidden">
       <Navigation />
 
@@ -227,6 +361,29 @@ export function Contact() {
       {/* CONTACT FORM SECTION */}
       <section ref={formRef} className="relative py-20 md:py-32 bg-gradient-to-t from-black via-[#080000] to-black">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Status Messages */}
+          {submitStatus === 'success' && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-green-900/30 border border-green-500 rounded-lg flex items-center gap-3"
+            >
+              <CheckCircle className="w-5 h-5 text-green-400" />
+              <span className="text-green-400">{t('contact.form.successMessage')}</span>
+            </motion.div>
+          )}
+
+          {submitStatus === 'error' && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-red-900/30 border border-red-500 rounded-lg flex items-center gap-3"
+            >
+              <XCircle className="w-5 h-5 text-red-400" />
+              <span className="text-red-400">{t('contact.form.errorMessage')}</span>
+            </motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={formInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
@@ -264,9 +421,20 @@ export function Contact() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
+                    className={`w-full bg-black/50 border text-white p-4 rounded-lg focus:outline-none transition-colors ${
+                      errors.name ? 'border-red-500' : 'border-[#333] focus:border-[#FF0000]'
+                    }`}
                     placeholder={t('contact.form.namePlaceholder')}
                   />
+                  {errors.name && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-red-400 text-sm mt-2"
+                    >
+                      {errors.name}
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -284,9 +452,20 @@ export function Contact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
+                    className={`w-full bg-black/50 border text-white p-4 rounded-lg focus:outline-none transition-colors ${
+                      errors.email ? 'border-red-500' : 'border-[#333] focus:border-[#FF0000]'
+                    }`}
                     placeholder={t('contact.form.emailPlaceholder')}
                   />
+                  {errors.email && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-red-400 text-sm mt-2"
+                    >
+                      {errors.email}
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -304,9 +483,20 @@ export function Contact() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
+                    className={`w-full bg-black/50 border text-white p-4 rounded-lg focus:outline-none transition-colors ${
+                      errors.phone ? 'border-red-500' : 'border-[#333] focus:border-[#FF0000]'
+                    }`}
                     placeholder={t('contact.form.phonePlaceholder')}
                   />
+                  {errors.phone && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-red-400 text-sm mt-2"
+                    >
+                      {errors.phone}
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -323,13 +513,24 @@ export function Contact() {
                     required
                     value={formData.service}
                     onChange={handleChange}
-                    className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
+                    className={`w-full bg-black/50 border text-white p-4 rounded-lg focus:outline-none transition-colors ${
+                      errors.service ? 'border-red-500' : 'border-[#333] focus:border-[#FF0000]'
+                    }`}
                   >
                     <option value="">{t('contact.form.servicePlaceholder')}</option>
                     {services.map((service: string, index: number) => (
                       <option key={index} value={service}>{service}</option>
                     ))}
                   </select>
+                  {errors.service && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-red-400 text-sm mt-2"
+                    >
+                      {errors.service}
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -386,9 +587,20 @@ export function Contact() {
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full bg-black/50 border border-[#333] text-white p-4 rounded-lg focus:border-[#FF0000] focus:outline-none transition-colors"
+                  className={`w-full bg-black/50 border text-white p-4 rounded-lg focus:outline-none transition-colors ${
+                    errors.message ? 'border-red-500' : 'border-[#333] focus:border-[#FF0000]'
+                  }`}
                   placeholder={t('contact.form.messagePlaceholder')}
                 />
+                {errors.message && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-400 text-sm mt-2"
+                  >
+                    {errors.message}
+                  </motion.p>
+                )}
               </motion.div>
 
               <motion.div
@@ -404,12 +616,23 @@ export function Contact() {
                   required
                   checked={formData.consent}
                   onChange={handleChange}
-                  className="w-5 h-5 mt-1 bg-black/50 border border-[#333] rounded focus:border-[#FF0000] focus:outline-none"
+                  className={`w-5 h-5 mt-1 bg-black/50 border rounded focus:outline-none ${
+                    errors.consent ? 'border-red-500' : 'border-[#333] focus:border-[#FF0000]'
+                  }`}
                 />
                 <label htmlFor="consent" className="text-[#aaa] text-sm leading-relaxed">
                   {t('contact.form.consent')}
                 </label>
               </motion.div>
+              {errors.consent && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-red-400 text-sm -mt-4"
+                >
+                  {errors.consent}
+                </motion.p>
+              )}
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -419,12 +642,26 @@ export function Contact() {
               >
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(255, 0, 0, 0.5)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-[#FF0000] text-white px-12 py-4 font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-red-700 transition-colors flex items-center gap-3 mx-auto"
+                  disabled={isSubmitting}
+                  whileHover={!isSubmitting ? { scale: 1.05, boxShadow: "0 10px 30px -10px rgba(255, 0, 0, 0.5)" } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.95 } : {}}
+                  className={`px-12 py-4 font-bold uppercase tracking-[0.2em] rounded-lg transition-colors flex items-center gap-3 mx-auto ${
+                    isSubmitting 
+                      ? 'bg-gray-600 cursor-not-allowed' 
+                      : 'bg-[#FF0000] hover:bg-red-700 text-white'
+                  }`}
                 >
-                  <Send className="w-5 h-5" />
-                  {t('contact.form.button')}
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      {t('contact.form.submitting')}
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      {t('contact.form.button')}
+                    </>
+                  )}
                 </motion.button>
               </motion.div>
             </form>
@@ -434,5 +671,6 @@ export function Contact() {
 
       <Footer />
     </div>
+    </>
   );
 }

@@ -89,7 +89,7 @@ export function AboutPreview() {
             {/* Main Image Container */}
             <div className="aspect-square bg-black border border-red-600 overflow-hidden rounded-lg">
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80"
+                src="/homePageimg.png"
                 alt="Professional security team"
                 className="w-full h-full object-cover"
                 loading="lazy"

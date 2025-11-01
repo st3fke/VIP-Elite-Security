@@ -28,7 +28,7 @@ export function JourneyManagement() {
             </ul>
           </div>
           <div className="relative">
-            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=70" alt={t('servicesDetails.journeyManagement.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="/journeyManagment.jpg" alt={t('servicesDetails.journeyManagement.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </motion.div>

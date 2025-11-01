@@ -28,7 +28,7 @@ export function BugSweeping() {
             </ul>
           </div>
           <div className="relative">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=70" alt={t('servicesDetails.bugSweeping.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
+            <img src="/bugSweep.png" alt={t('servicesDetails.bugSweeping.title')} className="w-full h-[500px] object-cover border border-white/10" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </motion.div>
