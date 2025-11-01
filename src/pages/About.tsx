@@ -114,11 +114,11 @@ export function About() {
         />
         <meta property="og:title" content="VIP Elite Security" />
         <meta property="og:description" content="Bespoke protection combining luxury and tactical professionalism." />
-        <meta property="og:image" content="/assets/og-image.jpg" />
+        <meta property="og:image" content="/homePageimg.png" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://vipelitesecurity.com" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://vipelitesecurity.com" />
+        <link rel="canonical" href="https://vipelitesecurity.com/about" />
       </Helmet>
     <div className="w-full min-h-screen bg-black text-white overflow-hidden">
       <Navigation />
